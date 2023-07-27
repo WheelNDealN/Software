@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<style>
+    body
+{
+    margin: 0;
+    text-align: center;
+    padding: 0;
+    background-color:#6abadeba;
+    font-family: 'Arial';
+}
+.login{
+        text-align: center;
+        width: 382px;
+        overflow: hidden;
+        margin: auto;
+        margin: 20 0 0 450px;
+        padding: 80px;
+        background: #23463f;
+        border-radius: 15px ;
+
+}
+h2{
+    text-align: center;
+    color: #277582;
+    padding: 20px;
+}
+label{
+    color: #23463f;
+    font-size: 17px;
+}
+#Uname{
+    width: 300px;
+    text-align: center;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+#Pass{
+    width: 300px;
+    text-align: center;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    padding-left: 8px;
+
+}
+#log{
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 17px;
+    padding-left: 7px;
+    color: blue;
+
+
+}
+span{
+    color: white;
+    font-size: 17px;
+}
+a{
+    float: right;
+    background-color: grey;
+}
+
+</style>
+<body>
+    {% block body %}
+    <script>
+        function myFunction() {
+          document.getElementById("MyDiv").innerHTML = "Creating User";
+        }
+    </script>
+    <div class="container-fluid"></div>
+    <div class="row">
+        <div class="offset-md-4 col-md-4">
+            <h2>Create a new User</h2>
+            {% if error %}
+                <p>Invalid Username</p>
+            {% endif %}
+            {% if Format %}
+                <p>Username had special characters</p>
+            {% endif %}
+        <form method="POST">
+            <!--form-->
+            <form action="">
+                <div class="form-group">
+                    <label for="Username">Username</label>
+                    <input class="input" type="text" name="Username" placeholder="Enter Username">
+                </div>
+                <div class="form-group">
+                    <label for="Password">Password</label>
+                    <input class="input" type="password" name="Password" placeholder="Enter Password">
+                    
+                </div>
+                <div id="MyDiv">
+                    <p></p>
+                  </div>
+                <button type="submit" class="btn btn-primary" onclick="myFunction()">Submit</button>
+                <div>Set Password to "pa$$word" to create an Admin Account</div>
+                <div>No special characters allowed for the Username</div>
+            </form>
+        </form method="POST">
+        </div>
+
+    </div>
+    {% endblock %}
+</body>
