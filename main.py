@@ -14,7 +14,7 @@ application = Flask(__name__, template_folder='template')
 application.secret_key = 'supersecret'
 application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///tickets.db"
 db = SQLAlchemy(application)
-con = sql.connect('UserInfo.db', check_same_thread=False, timeout=10)
+con = sql.connect('Userdata.db', check_same_thread=False, timeout=10)
 cur = con.cursor()
 
 ChangeID=0
