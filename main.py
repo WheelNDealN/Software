@@ -17,6 +17,13 @@ db = SQLAlchemy(application)
 con = sql.connect('Userdata.db', check_same_thread=False, timeout=10)
 cur = con.cursor()
 
+class Items(db.Model):
+    ID = db.Column(db.Integer, primary_key=True)
+    Device = db.Column(db.Text)
+
+    def __repr__(self):
+        return '<device %r>' %self.Device
+
 #This is my Ticket Database, with all the limitations and format options
 class Userdb(db.Model):
     TID = db.Column(db.Integer, primary_key=True)
@@ -25,9 +32,17 @@ class Userdb(db.Model):
     Date = db.Column(db.String, default = datetime.utcnow)
 
     def __repr__(self):
-        return '<Issue %r>' %self.Date
+        return '<Product %r>' %self.Date
 
 ChangeID=0
+
+#Same as getting the Users length this one is for the tickets, allowing me to add one to the ID when a new one is created
+def getlength():
+    try:
+        ordered = Userdb.query.order_by(Userdb.TID.desc())
+        return ordered[0].TID
+    except:
+        return -1
 
 #refactored function for getting the length of my Users, this is useful for the primary key going up when a user is added
 def getuserlen():
@@ -212,7 +227,10 @@ def Productpage():
 
     if request.method == 'POST':
         if request.form.get('SubmitButton') == 'Go to Profile':
-            return redirect(url_for('profile')) 
+            if session['admincheck'] == "1":
+                return redirect(url_for("admin"))
+            else:
+                return redirect(url_for('profile'))
 
         elif request.form.get('SubmitButton') == 'Modify':
             ChangeID = request.form['id']
@@ -234,31 +252,54 @@ def productmanager():
             return redirect(url_for('login'))
     except:
         return redirect(url_for('login'))
-
+    
     if request.method == 'POST':
-
         if request.form.get('SubmitButton') == 'Go to Profile':
-            return redirect(url_for('admin')) 
-
+            if session['admincheck'] == "1":
+                return redirect(url_for("admin"))
+            else:
+                return redirect(url_for('profile'))
+            
         elif request.form.get('SubmitButton') == 'Modify':
             ChangeID = request.form['id']
             setchangeid(ChangeID)
-
             return redirect(url_for("configureticket"))
-                
-        elif request.form.get('SubmitButton') == 'Delete':
-            #based on the selection the id that is submited is shown to the user
-            Deleteid = request.form['id']
-            Userdb.query.filter(Userdb.TID == Deleteid).delete()
-            data = Userdb.query.order_by(Userdb.TID)
-            db.session.commit()
-            time.sleep(1)
-            return redirect(url_for("productmanager"))
 
         elif request.form.get('SubmitButton') == 'CreateTicket':
             return redirect(url_for("createticket"))
         
     return render_template("manage.html", data=data)
+
+@application.route('/createticket', methods=['GET','POST'])
+def createticket():
+    try:
+        if not g.user:
+            
+            return redirect(url_for('login'))
+            
+    except:
+        return redirect(url_for('login'))
+
+    if request.form.get('SubmitButton') == 'Go to Ticket Manager':
+            return redirect(url_for('productmanager')) 
+
+    #based on what was inputed into the sections a new ticket is created
+    if request.form.get('SubmitButton') == 'Submit':
+        InputEmail = request.form['Email']
+        InputProduct = request.form['Issue']
+        length = int(getlength())+1
+        newinfo = Userdb(TID= length,Product=InputProduct,Email_Address=InputEmail)
+        db.session.add(newinfo)
+        db.session.commit()
+        time.sleep(1)
+
+        if session['admincheck'] == "1":
+            return redirect(url_for('adminticketmanager'))
+
+        else:
+            return redirect(url_for('productmanager'))
+    data = Items.query.order_by(Items.ID)
+    return render_template("Requestequipment.html", data=data)
 
 if __name__ == '__main__':
     application.run(port=8069,host="0.0.0.0")

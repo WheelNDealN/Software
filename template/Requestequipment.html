@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+          body
+        {
+            margin: 0;
+            text-align: center;
+            padding: 0;
+            background-color:#6abadeba;
+            font-family: 'Arial';
+        }
+        input {
+            border: none;
+            color: rgb(43, 84, 52);
+            padding: 1px 10px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+
+        label, input {
+        display: block; font-size: 16px; padding: 1px 20px; /* 1. oh noes, my inputs are styled as block... */
+        }
+        .option{
+          display: block; font-size: 16px; padding: 100px 200px;
+        }
+
+        .input1 {background-color: #008CBA;} /* Blue */
+
+        table, th, td {
+            order:1px solid rgb(255, 255, 255);
+        }
+
+        .center-block {
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        }
+
+      </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <script>
+      function myFunction() {
+        document.getElementById("MyDiv").innerHTML = "Adding Information";
+      }
+      </script>
+    <section>
+      <div>
+        <div class="container">
+          <head>
+            <style>
+                h1{text-align: center;}
+                h2{text-align: center;}
+                form{text-align: center}
+                table{text-align: center}
+                tr{text-align: center}
+                div{text-align: center}
+            </style>
+          </head>
+            <h1 class="title">Create a Ticket</h1>
+            <div class="offset-md-4 col-md-4">
+                <form method="POST"class="form-register">
+                    <div>
+                        <button type="submit" class="button" name="SubmitButton" value="Go to Ticket Manager">Go to Ticket Manager</button>
+                    </div>
+
+                            <span class="offset-md-4 col-md-4">
+                                
+                                </select>
+                                <label for="name">Select a Product </label>
+                                <select name="Enter the Issue" id="Issue">
+                                {% for x in data %}
+                                  <option class="option" value="{{ x.Device }}">{{ x.Device }}</option>
+                                {% endfor %}
+                                <p>
+                                <label for="address">Enter Your Email Address</label>
+                                <input  class="center-block" type="text" name="Email" placeholder="Email" />
+                                <button type="submit" name="SubmitButton" value="Submit" onclick="myFunction()">Submit</button>
+                                <div id="MyDiv">
+                                </p>
+                                </div>
+                            </span>
+                        </form>
+                    </div>
+            {% block content %}{% endblock %}
+          </div>
+      </div>
+    </section>
+  </body>
+</html>
