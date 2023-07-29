@@ -12,10 +12,20 @@ import re
 #This is set up for databases and for the flask server
 application = Flask(__name__, template_folder='template')
 application.secret_key = 'supersecret'
-application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///tickets.db"
+application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///Products.db"
 db = SQLAlchemy(application)
 con = sql.connect('Userdata.db', check_same_thread=False, timeout=10)
 cur = con.cursor()
+
+#This is my Ticket Database, with all the limitations and format options
+class Userdb(db.Model):
+    TID = db.Column(db.Integer, primary_key=True)
+    Product = db.Column(db.String(64), index=True, default = "Product")
+    Email_Address = db.Column(db.String(25), default = "Email Address")
+    Date = db.Column(db.String, default = datetime.utcnow)
+
+    def __repr__(self):
+        return '<Issue %r>' %self.Date
 
 ChangeID=0
 
@@ -164,8 +174,8 @@ def profile():
             session.clear()
             return redirect(url_for('login'))
 
-        elif request.form.get('SubmitButton2') == 'Go to ticket manager':
-            return redirect(url_for('ticketmanager'))                       
+        elif request.form.get('SubmitButton2') == 'Go to Product manager':
+            return redirect(url_for('Productpage'))                       
 
     return render_template('profile.html')
 
@@ -184,10 +194,71 @@ def admin():
             session.clear()
             return redirect(url_for('login'))
             
-        elif request.form.get('SubmitButton2') == 'Go to admin ticket manager':
-            return redirect(url_for('adminticketmanager'))
+        elif request.form.get('SubmitButton2') == 'Go to admin inventory':
+            return redirect(url_for('Productpage'))
 
     return render_template('admin.html')
+
+ 
+#This page displays all of the tickets and gives options for modifying for regular users
+@application.route('/Productpage', methods=['GET','POST'])
+def Productpage():
+    data = Userdb.query.order_by(Userdb.TID)
+    try:
+        if not g.user:
+            return redirect(url_for('login'))
+    except:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        if request.form.get('SubmitButton') == 'Go to Profile':
+            return redirect(url_for('profile')) 
+
+        elif request.form.get('SubmitButton') == 'Modify':
+            ChangeID = request.form['id']
+            setchangeid(ChangeID)
+
+            return redirect(url_for("configureticket"))
+            
+        elif request.form.get('SubmitButton') == 'CreateTicket':
+            return redirect(url_for("createticket"))
+        
+    return render_template("manage.html", data=data)
+
+#this is the same as the ticket manager however with adding option of deleting the ticket from the ticket database
+@application.route('/productmanager', methods=['GET','POST'])
+def productmanager():
+    data = Userdb.query.order_by(Userdb.TID)
+    try:
+        if not g.user:
+            return redirect(url_for('login'))
+    except:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+
+        if request.form.get('SubmitButton') == 'Go to Profile':
+            return redirect(url_for('admin')) 
+
+        elif request.form.get('SubmitButton') == 'Modify':
+            ChangeID = request.form['id']
+            setchangeid(ChangeID)
+
+            return redirect(url_for("configureticket"))
+                
+        elif request.form.get('SubmitButton') == 'Delete':
+            #based on the selection the id that is submited is shown to the user
+            Deleteid = request.form['id']
+            Userdb.query.filter(Userdb.TID == Deleteid).delete()
+            data = Userdb.query.order_by(Userdb.TID)
+            db.session.commit()
+            time.sleep(1)
+            return redirect(url_for("productmanager"))
+
+        elif request.form.get('SubmitButton') == 'CreateTicket':
+            return redirect(url_for("createticket"))
+        
+    return render_template("manage.html", data=data)
 
 if __name__ == '__main__':
     application.run(port=8069,host="0.0.0.0")
