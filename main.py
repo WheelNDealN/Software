@@ -28,12 +28,12 @@ def getuserlen():
   return Ans
 
 #This function was to clean up the code as the Statement variable is long
-def create_user(addusername,addpassword,addadmin):
+def create_user(addemail,addpassword,addadmin):
     IDtoAdd = int(getuserlen()+1)
-    user=addusername
+    user=addemail
     passw=addpassword
     admin=addadmin
-    cur.execute("INSERT INTO UserInfo (ID,Username,Password,Admin) VALUES (?,?,?,?)",(IDtoAdd,user,passw,admin) )
+    cur.execute("INSERT INTO UserInfo (ID,Email,Password,Admin) VALUES (?,?,?,?)",(IDtoAdd,addemail,passw,admin) )
     con.commit()
 
 #These two functions where used when i had to select the index of the ticket database for modifing
@@ -80,17 +80,21 @@ def login():
             return redirect(url_for('createuser'))
             
         if request.form.get('SubmitButton') == 'Submit':
-            username = request.form['Username']
+            email = request.form['Email']
+            email = email.lower()
             password = request.form['Password']
-            statement = f"SELECT Username from UserInfo WHERE Username='{username}' AND Password = '{password}';"
+            print(email)
+            print(password)
+            statement = f"SELECT Email from UserInfo WHERE Email='{email}'"
             statement = fetch(statement)
+            print(statement)
 
             #this try method checks for matching usernames and signs them in if they are matching
             try:
-                if statement[0] == username:
-                    IDQuery = f"SELECT ID from UserInfo WHERE Username='{username}' AND Password = '{password}';"
+                if statement[0] == email:
+                    IDQuery = f"SELECT ID from UserInfo WHERE Email='{email}' AND Password = '{password}';"
                     IDQuery = fetch(IDQuery)
-                    AdminQuery = f"SELECT Admin from UserInfo WHERE Username='{username}' AND Password = '{password}';"
+                    AdminQuery = f"SELECT Admin from UserInfo WHERE Email='{email}' AND Password = '{password}';"
                     AdminQuery = fetch(AdminQuery)
                     session['user_id'] = IDQuery[0]  
                     session['admincheck'] = AdminQuery[0]
@@ -117,35 +121,29 @@ def createuser():
     session.clear()
     if request.method == 'POST':
         session.pop('user_id', None)
-        username = request.form['Username']
+        email = request.form['Email']
+        email = email.lower()
         password = request.form['Password']
+        if password == "pa$$word":
+            admin = "1"
 
-        #this is checking if the username has characters upper or lower case A-Z and numbers 0-9, if any other are detected and error is given
-        if (bool(re.match('^[a-zA-Z0-9]*$',username))==False):
-            return render_template('createuser.html', Format=True)
-
-        #to create an admin a check for the passowrd being "pa$$word", ideally kept a secret but for ease of use ive displayed the rule on the page
         else:
-            if password == "pa$$word":
-                admin = "1"
+            admin = "0"
 
-            else:
-                admin = "0"
+        usernameQuery = f"SELECT Email from UserInfo WHERE Email='{email}'"
 
-            usernameQuery = f"SELECT Username from UserInfo WHERE Username='{username}'"
-
-            #if all requirements are met the "create_user" function is ran
-            try:
-                create_user(username,password,admin)
-                #whenever i add delay to the webpage i am showing the user a message, or creating a fake a buffer to make it feel as though something is happening
-                time.sleep(1)
-                return redirect(url_for('login'))
+        #if all requirements are met the "create_user" function is ran
+        try:
+            create_user(email,password,admin)
+            #whenever i add delay to the webpage i am showing the user a message, or creating a fake a buffer to make it feel as though something is happening
+            time.sleep(1)
+            return redirect(url_for('login'))
             
-            #if usernames match desplay error
-            except:
-                fetch(usernameQuery)
-                time.sleep(1)
-                return render_template('createuser.html', error=True)
+        #if usernames match desplay error
+        except:
+            fetch(usernameQuery)
+            time.sleep(1)
+            return render_template('createuser.html', error=True)
         
     return render_template('createuser.html')
 

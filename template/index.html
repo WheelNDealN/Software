@@ -75,17 +75,17 @@
             <div class="offset-md-4 col-md-4">
                 <h2>Login</h2>
                 {% if error %}
-                    <p>Invalid Username or Password please try again</p>
+                    <p>Invalid Email or Password please try again</p>
                 {% endif %}
             <form method="POST">
                 <!--form-->
                 <form action="">
                     <div class="form-group">
-                        <label for="Username">Username</label>
-                        <input class="input" type="text" name="Username" placeholder="Enter Username">
+                        <label for="Email">Email</label>
+                        <input class="input" type="text" name="Email" placeholder="Enter Email">
                     </div>
                     <div class="form-group">
-                        <label for="Password">Username</label>
+                        <label for="Password">Password</label>
                         <input class="input" type="password" name="Password" placeholder="Enter Password">
                     </div>
                     <button type="submit" class="btn btn-primary" name="SubmitButton" value="CreateUser">Create User</button>
