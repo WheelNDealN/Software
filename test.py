@@ -17,12 +17,17 @@ db = SQLAlchemy(application)
 con = sql.connect('UserInfo.db', check_same_thread=False, timeout=10)
 cur = con.cursor()
 
+#This is my Ticket Database, with all the limitations and format options
+class Items(db.Model):
+    ID = db.Column(db.Integer, primary_key=True)
+    Device = db.Column(db.Text)
+   
 class Userdb(db.Model):
     TID = db.Column(db.Integer, primary_key=True)
     Issue = db.Column(db.String(64), index=True, default = "Issue")
     Email_Address = db.Column(db.String(25), default = "Email Address")
     Date = db.Column(db.String, default = datetime.utcnow)
 
-    def __repr__(self):
-        return '<Issue %r>' %self.Date
-    
+
+data = Items.query.all()
+print(data)

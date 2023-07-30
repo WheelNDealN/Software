@@ -1,5 +1,6 @@
 /application.py
-/instance
+/data.db
 /requirements.txt
 /UserInfo.db
 /__pycache__
+/test.py
