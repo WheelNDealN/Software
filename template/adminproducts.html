@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+            body
+        {
+            margin: 0;
+            text-align: center;
+            padding: 0;
+            background-color:#6abadeba;
+            font-family: 'Arial';
+        }
+        .login{
+                width: 382px;
+                overflow: hidden;
+                margin: auto;
+                margin: 20 0 0 450px;
+                padding: 80px;
+                background: #23463f;
+                border-radius: 15px ;
+    
+        }
+        h2{
+            text-align: center;
+            color: #277582;
+            padding: 20px;
+        }
+        label{
+            color: #23463f;
+            font-size: 17px;
+        }
+        #Uname{
+            width: 300px;
+            height: 30px;
+            border: none;
+            border-radius: 3px;
+            padding-left: 8px;
+        }
+        #Pass{
+            width: 300px;
+            height: 30px;
+            border: none;
+            border-radius: 3px;
+            padding-left: 8px;
+    
+        }
+        #log{
+            width: 300px;
+            height: 30px;
+            border: none;
+            border-radius: 17px;
+            padding-left: 7px;
+            color: blue;
+    
+    
+        }
+        span{
+            color: #6abadeba;
+            font-size: 17px;
+        }
+        a{
+            float: right;
+            background-color: grey;
+        }
+      </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <script>
+        function clicked(e)
+        {
+            if(!confirm('Are you sure you want to delete ID:{{ data.TID }}')) {
+                e.preventDefault();
+            } else {
+                document.getElementById("MyDiv").innerHTML = "Deleting User";
+            }
+        } 
+    </script>
+    <section>
+      <div>
+        <div class="container">
+          <head>
+            <style>
+                h1{text-align: center;}
+                h2{text-align: center;}
+                form{text-align: center}
+                table{text-align: center}
+                tr{text-align: center}
+                div{text-align: center}
+                h4{text-align: left}
+            </style>
+          </head>
+          </script>
+
+            <h1 class="title">Admin product Management</h1>
+            <h1 class="subtitle">
+              Admin Account
+            </h1>
+            
+            <form method="POST"class="form-register">
+              <form>
+                <button type="submit" class="btn btn-primary" name="SubmitButton" value="Go to Profile">Go to Profile</button>
+                <button type="submit" class="btn btn-primary" name="SubmitButton2" value="Go to admin inventory management">Create/Modify A New Product</button>
+                <div style="margin-top:5px;">
+                  <input class="center-block" type="text" name="id" placeholder="id you want to modify or delete" />
+                  <button type="submit" class="btn btn-primary" name="SubmitButton" value="Modify">Modify</button>
+                  <button type="submit" class="btn btn-primary" name="SubmitButton" value="Delete" onclick="return confirm('Are you sure?')">Delete</button>
+                <div id="MyDiv">
+                  <p></p>
+                </div>
+                </div>
+              </form>
+            {% block content %}{% endblock %}
+          </div>
+      </div>
+    </section>
+  </body>
+</html>
