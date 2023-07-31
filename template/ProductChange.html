@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+          body
+        {
+            margin: 0;
+            text-align: center;
+            padding: 0;
+            background-color:#6abadeba;
+            font-family: 'Arial';
+        }
+        input {
+            border: none;
+            color: rgb(43, 84, 52);
+            padding: 1px 10px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+
+        label, input {
+        display: block; font-size: 16px; padding: 1px 20px; /* 1. oh noes, my inputs are styled as block... */
+        }
+        .option{
+          display: block; font-size: 16px; padding: 100px 200px;
+        }
+
+        .input1 {background-color: #008CBA;} /* Blue */
+
+        table, th, td {
+            order:1px solid rgb(255, 255, 255);
+        }
+
+        .center-block {
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        }
+
+      </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <section>
+      <div>
+        <div class="container">
+          <head>
+            <style>
+                h1{text-align: center;}
+                h2{text-align: center;}
+                form{text-align: center}
+                table{text-align: center}
+                tr{text-align: center}
+                div{text-align: center}
+                h4{text-align: left}
+            </style>
+          </head>
+
+            <h1 class="title">Request Modification</h1>
+            
+            <form method="POST"class="form-register">
+              <form>
+                <div style="margin-bottom:10px;">
+                  <button type="submit" class="button" name="SubmitButton" value="Go to Product Manager">Go to Product Manager</button>
+                </div>
+              </form>
+            {% block content %}{% endblock %}
+          </div>
+      </div>
+    </section>
+  </body>
+</html>

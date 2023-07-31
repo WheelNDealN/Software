@@ -35,6 +35,7 @@ class Userdb(db.Model):
         return '<Product %r>' %self.Date
 
 ChangeID=0
+GobEmail = ""
 
 #Same as getting the Users length this one is for the tickets, allowing me to add one to the ID when a new one is created
 def getlength():
@@ -241,7 +242,7 @@ def Productpage():
             ChangeID = request.form['id']
             setchangeid(ChangeID)
 
-            return redirect(url_for("configureticket"))
+            return redirect(url_for("configureproduct"))
             
         elif request.form.get('SubmitButton2') == 'createrequest':
             return redirect(url_for("createrequest"))
@@ -268,7 +269,7 @@ def adminrequestmanager():
                 ChangeID = request.form['id']
                 setchangeid(ChangeID)
 
-                return redirect(url_for("configureticket"))
+                return redirect(url_for("configureproduct"))
                     
             elif request.form.get('SubmitButton') == 'Delete':
                 #based on the selection the id that is submited is shown to the user
@@ -277,7 +278,7 @@ def adminrequestmanager():
                 data = Userdb.query.order_by(Userdb.TID)
                 db.session.commit()
                 time.sleep(1)
-                return redirect(url_for("adminticketmanager"))
+                return redirect(url_for("configureproduct"))
 
             elif request.form.get('SubmitButton2') == 'Go to admin inventory management':
                 return redirect(url_for("admininventory"))
@@ -309,7 +310,7 @@ def createrequest():
         time.sleep(1)
 
         if session['admincheck'] == "1":
-            return redirect(url_for('adminticketmanager'))
+            return redirect(url_for('createrequest'))
 
         else:
             return redirect(url_for('Productpage'))
@@ -344,7 +345,7 @@ def admininventory():
             time.sleep(1)
             
             if session['admincheck'] == "1":
-                return redirect(url_for('admininventory'))
+                return redirect(url_for('adminrequestmanager'))
 
             else:
                 return redirect(url_for('Productpage'))
@@ -353,6 +354,44 @@ def admininventory():
         return render_template("admininventorymanage.html", data=data)
     else:
         return redirect(url_for('login'))
+    
+
+#this is for changing the ticket information that i thought was important
+@application.route('/configureproduct', methods=['GET','POST'])
+def configureproduct():
+    ChangeID = getchangeid()
+    data= Userdb.query.filter(Userdb.TID == ChangeID)
+
+    try:
+        if not g.user:
+            return redirect(url_for('login'))
+    except:
+        return redirect(url_for('login'))
+        
+    if request.method == 'POST':
+
+        if request.form.get('SubmitButton') == 'Go to Product Manager':
+            if session['admincheck'] == "1":
+                return redirect(url_for('adminrequestmanager'))
+            else:
+                return redirect(url_for('Productpage'))
+        
+        elif request.form.get('SubmitButton') == 'Submit':
+            #only the email and issue is changed as i thought it was important to show the data it was created rather than modified
+            EmailChange = request.form['Email']
+            select = request.form['New Product']
+            data.update({'Email_Address': EmailChange})
+            data.update({'Product': select})
+            db.session.commit()
+            time.sleep(1)
+            #this ensures that the user is directed the correct page after modifing
+            if session['admincheck'] == "1":
+                return redirect(url_for('adminrequestmanager'))
+            else:
+                return redirect(url_for('Productpage'))
+            
+    Itemdata = Items.query.order_by(Items.ID)
+    return render_template("Productconfig.html", data=data, Itemdata=Itemdata)
 
 if __name__ == '__main__':
     application.run(port=8069,host="0.0.0.0")
