@@ -1,0 +1,59 @@
+{% extends 'ticketchange.html' %}
+{% block content %}
+    <div class="container"> 
+        <style>
+            sub {
+            border: none;
+            color: rgb(0, 0, 52);
+            padding: 1px 10px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 100px;
+            cursor: pointer;
+        }
+        
+        </style>
+        <script>
+          function myFunction() {
+          document.getElementById("MyDiv").innerHTML = "Modifying Ticket";
+          }
+        </script>
+        <h2>Ticket to Modify</h2>
+        {% for x in data %}
+        <form method="POST"class="form-register">
+            <p>
+                <table class="table table-striped">
+                <thead>
+                <tr>
+                <th>ID</th>
+                <th>Issue</th>
+                <th>Email Address</th>
+                <th>Date & Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                <td>{{ x.TID }}</td>
+                <td>
+                    <label for="name">{{x.Issue}}</label>
+                    <input  class="center-block" type="text" name="Issue" placeholder="Enter New Issue" />
+                </td>
+                <td>
+                    <label for="address">{{x.Email_Address}}</label>
+                    <input  class="center-block" type="text" name="Email" placeholder="Enter New Email" />
+                </td>
+                <td>{{ x.Date }}</td>
+                </tr>
+                </tbody>
+                </table>
+                <form>
+                <div id="MyDiv">
+                    <p></p>
+                </div>
+                <button type="submit" class="button" name="SubmitButton" value="Submit" onclick="myFunction()">Submit Data</button>
+                </form>
+            </p>
+        </form>
+        {% endfor %}
+    </div>
+{% endblock %}

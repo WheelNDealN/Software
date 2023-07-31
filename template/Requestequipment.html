@@ -66,18 +66,18 @@
                 div{text-align: center}
             </style>
           </head>
-            <h1 class="title">Create a Ticket</h1>
+            <h1 class="title">Request new equipment</h1>
             <div class="offset-md-4 col-md-4">
                 <form method="POST"class="form-register">
                     <div>
-                        <button type="submit" class="button" name="SubmitButton" value="Go to Ticket Manager">Go to Ticket Manager</button>
+                        <button type="submit" class="button" name="SubmitButton" value="Go to manager">Go to Product Manager</button>
                     </div>
 
                             <span class="offset-md-4 col-md-4">
                                 
                                 </select>
                                 <label for="name">Select a Product </label>
-                                <select name="Enter the Issue" id="Issue">
+                                <select name="New Product" id="Issue">
                                 {% for x in data %}
                                   <option class="option" value="{{ x.Device }}">{{ x.Device }}</option>
                                 {% endfor %}

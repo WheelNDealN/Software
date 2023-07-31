@@ -2,5 +2,6 @@
 /data.db
 /requirements.txt
 /UserInfo.db
+/data.db
 /__pycache__
 /test.py
