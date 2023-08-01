@@ -1,14 +1,11 @@
 #All my imports
-from distutils.log import error
-from flask import Flask, render_template, abort
+import time
+import sqlite3 as sql
+import pyotp
+from flask import (Flask, g, redirect, render_template, request, session, url_for, render_template)
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import update
-import time
-import sqlite3 as sql
-from flask import (Flask, g, redirect, render_template, request, session, url_for)
-import re
-import pyotp
 
 #This is set up for databases and for the flask server
 application = Flask(__name__, template_folder='template')
@@ -147,8 +144,7 @@ def login():
                     session['user_id'] = IDQuery[0]  
                     session['admincheck'] = AdminQuery[0]                
                     return redirect(url_for("login_2fa"))
-                    
-            
+                       
             #when none are matching this "exepct" makes an error show
             except:
                 print(fetch(statement))
