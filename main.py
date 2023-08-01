@@ -8,6 +8,7 @@ import time
 import sqlite3 as sql
 from flask import (Flask, g, redirect, render_template, request, session, url_for)
 import re
+import pyotp
 
 #This is set up for databases and for the flask server
 application = Flask(__name__, template_folder='template')
@@ -61,6 +62,12 @@ def getuserlen():
   Ans = Ans[0][0]
   return Ans
 
+def getauth():
+    authuser=f"SELECT Authkey from UserInfo WHERE ID='{session['user_id']}'"
+    statement = fetch(authuser)
+    statement = ''.join(statement)
+    return statement
+
 #This function was to clean up the code as the Statement variable is long
 def create_user(addemail,addpassword,addadmin):
     IDtoAdd = int(getuserlen()+1)
@@ -77,6 +84,17 @@ def setchangeid(ID):
 
 def getchangeid():
     return ChangeID
+
+#
+#
+#
+#test application and then deploy the code
+#one workflow with two jobs
+#
+#
+#
+#
+
 
 #This is me refactoring SQLite as this sequence of code had to be ran many times and this made my code look nicer and stopped repetition
 def fetch(Query):
@@ -128,13 +146,8 @@ def login():
                     AdminQuery = fetch(AdminQuery)
                     session['user_id'] = IDQuery[0]  
                     session['admincheck'] = AdminQuery[0]                
-
-                    #checking for admin and directing to the correct url
-                    if session['admincheck'] == "1":
-                        return redirect(url_for("admin"))
-
-                    else:
-                        return redirect(url_for('profile'))
+                    return redirect(url_for("login_2fa"))
+                    
             
             #when none are matching this "exepct" makes an error show
             except:
@@ -142,6 +155,26 @@ def login():
                 return render_template('index.html', error=True)         
 
     return render_template('index.html')
+
+@application.route("/2fa/", methods=["GET", "POST"])
+def login_2fa():
+    secret = getauth()
+    if request.method == 'POST':
+        # getting secret key used by user
+
+        # getting OTP provided by user
+        otp = int(request.form.get("otp"))
+
+        # verifying submitted OTP with PyOTP
+        if pyotp.TOTP(secret).verify(otp):
+            if session['admincheck'] == "1":
+                return redirect(url_for('admin'))
+            else:
+                return redirect(url_for('profile'))
+        else:
+            print("incorrect auth")
+            return redirect(url_for("login"))
+    return render_template("login_2fa.html", secret=secret)
 
 #Creating a new User
 @application.route('/createuser', methods=['GET', 'POST'])
@@ -178,7 +211,6 @@ def createuser():
 #This page is very simple but i wanted a page for logging out and a choice to going into the main page
 @application.route('/profile', methods=['GET','POST'])
 def profile():
-
     #this checks for a signed in user otherwise you are redirected to the login page
     try:
         if not g.user:
