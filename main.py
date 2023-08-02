@@ -2,10 +2,12 @@
 import time
 import sqlite3 as sql
 import pyotp
+import logging
 from flask import (Flask, g, redirect, render_template, request, session, url_for, render_template)
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import update
+
 
 #This is set up for databases and for the flask server
 application = Flask(__name__, template_folder='template')
@@ -14,6 +16,14 @@ application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///Products.db"
 db = SQLAlchemy(application)
 con = sql.connect('Userdata.db', check_same_thread=False, timeout=10)
 cur = con.cursor()
+
+logging.basicConfig(filename = 'app.txt',level=logging.DEBUG,filemode='w')
+logger = logging.getLogger(__name__)
+handler = logging.FileHandler('app.log')
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
 
 class Items(db.Model):
     ID = db.Column(db.Integer, primary_key=True)
@@ -82,13 +92,13 @@ def setchangeid(ID):
 def getchangeid():
     return ChangeID
 
-#
+
 #
 #
 #test application and then deploy the code
 #one workflow with two jobs
-#
-#
+#add logging
+#admin has to create an admin account
 #
 #
 
@@ -142,12 +152,15 @@ def login():
                     AdminQuery = f"SELECT Admin from UserInfo WHERE Email='{email}' AND Password = '{password}';"
                     AdminQuery = fetch(AdminQuery)
                     session['user_id'] = IDQuery[0]  
-                    session['admincheck'] = AdminQuery[0]                
+                    session['admincheck'] = AdminQuery[0]      
+                    id = session['user_id']
+                    application.logger.info('user with ID %s signed in correctly', id)
                     return redirect(url_for("login_2fa"))
                        
             #when none are matching this "exepct" makes an error show
             except:
                 print(fetch(statement))
+                application.logger.info('a false attempt was made to sign in with email %s and password %s'%(email,password))
                 return render_template('index.html', error=True)         
 
     return render_template('index.html')
@@ -155,6 +168,7 @@ def login():
 @application.route("/2fa/", methods=["GET", "POST"])
 def login_2fa():
     secret = getauth()
+    id = session['user_id']
     if request.method == 'POST':
         # getting secret key used by user
 
@@ -163,18 +177,20 @@ def login_2fa():
 
         # verifying submitted OTP with PyOTP
         if pyotp.TOTP(secret).verify(otp):
+            application.logger.info('user with ID %s passed 2 factor auth', id)
             if session['admincheck'] == "1":
                 return redirect(url_for('admin'))
             else:
                 return redirect(url_for('profile'))
         else:
-            print("incorrect auth")
+            application.logger.info('user with ID %s failed 2 factor auth', id)
             return redirect(url_for("login"))
     return render_template("login_2fa.html", secret=secret)
 
 #Creating a new User
 @application.route('/createuser', methods=['GET', 'POST'])
 def createuser():
+    id = session['user_id']
     error = False
     session.clear()
     if request.method == 'POST':
@@ -192,6 +208,7 @@ def createuser():
         #if all requirements are met the "create_user" function is ran
         try:
             create_user(email,password,admin)
+            application.logger.info("new user was created with email %s", email)
             #whenever i add delay to the webpage i am showing the user a message, or creating a fake a buffer to make it feel as though something is happening
             time.sleep(1)
             return redirect(url_for('login'))
@@ -219,6 +236,8 @@ def profile():
 
         if request.form.get('SubmitButton1') == 'LogOut':
             session.clear()
+            id = session['user_id']
+            application.logger.info("user with id %s signed out", id)
             return redirect(url_for('login'))
 
         elif request.form.get('SubmitButton2') == 'Go to Product manager':
@@ -238,6 +257,8 @@ def admin():
         
         if request.method == 'POST':
             if request.form.get('LogOut') == 'LogOut':
+                id = session['user_id']
+                application.logger.info("user with id %s signed out", id)
                 session.clear()
                 return redirect(url_for('login'))
                     
@@ -281,6 +302,7 @@ def Productpage():
 @application.route('/adminrequestmanager', methods=['GET','POST'])
 def adminrequestmanager():
     if session['admincheck'] == "1":   
+        id = int(session['user_id'])
         data = Userdb.query.order_by(Userdb.TID)
         try:
             if not g.user:
@@ -305,8 +327,9 @@ def adminrequestmanager():
                 Userdb.query.filter(Userdb.TID == Deleteid).delete()
                 data = Userdb.query.order_by(Userdb.TID)
                 db.session.commit()
+                application.logger.info("User %i deleted inventory request with id %s ",id,Deleteid)
                 time.sleep(1)
-                return redirect(url_for("configureproduct"))
+                return redirect(url_for("adminrequestmanager")) 
 
             elif request.form.get('SubmitButton2') == 'Go to admin inventory management':
                 return redirect(url_for("admininventory"))
@@ -335,6 +358,8 @@ def createrequest():
         newinfo = Userdb(TID= length,Product=select,Email_Address=InputEmail)
         db.session.add(newinfo)
         db.session.commit()
+        id = session['user_id']
+        application.logger.info("user with id %s created a new request of %s" % (id,select))
         time.sleep(1)
 
         if session['admincheck'] == "1":
@@ -364,10 +389,15 @@ def admininventory():
             newinfo = Items(ID= length,Device=select)
             db.session.add(newinfo)
             db.session.commit()
+            id = session['user_id']
+            application.logger.info("user with id %s added a new inventory option of %s" % (id,select))
             time.sleep(1)
 
         if request.form.get('SubmitButton') == 'Delete':
             select = request.form.get('ID')  
+            data = Userdb.query.order_by(Userdb.TID)
+            id = session['user_id']
+            application.logger.info("user with id %s deleted inventory with id of %s" % (id,data))
             Items.query.filter(Items.ID == select).delete()
             db.session.commit()
             time.sleep(1)
@@ -408,6 +438,8 @@ def configureproduct():
             #only the email and issue is changed as i thought it was important to show the data it was created rather than modified
             EmailChange = request.form['Email']
             select = request.form['New Product']
+            id = session['user_id']
+            application.logger.info("user with id %s modified invenotry request id %s" % (id,ChangeID))
             data.update({'Email_Address': EmailChange})
             data.update({'Product': select})
             db.session.commit()
