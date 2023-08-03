@@ -15,10 +15,18 @@
           <h5>Instructions!</h5>
           <ul>
             <li>Download <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en&gl=US" target="_blank">Google Authenticator</a> on your mobile.</li>
-            <li>Submit the generated key in the app.</li>
+            <li>Create a new account with <strong>setup key</strong> method.</li>
+            <li>Provide the required details (name, secret key).</li>
+            <li>Select time-based authentication.</li>
+            <li>Submit the generated key in the form.</li>
           </ul>
         </div>
         <div class="form-group">
+          <label for="secret">Secret Token</label>
+          <input type="text" class="form-control" id="secret" value="{{ secret }}" readonly>
+        </div>
+        <div class="text-center">
+          <button type="button" class="btn btn-primary" onclick="copySecret()">Copy Secret</button>
         </div>
       </form>
     </div>

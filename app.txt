@@ -3,3 +3,14 @@ INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a
  * Running on http://127.0.0.1:8069
  * Running on http://192.168.1.145:8069
 INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [03/Aug/2023 13:33:00] "GET /login HTTP/1.1" 200 -
+INFO:main:user with ID 3 signed in correctly
+INFO:werkzeug:127.0.0.1 - - [03/Aug/2023 13:33:03] "[32mPOST /login HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [03/Aug/2023 13:33:03] "GET /2fa/ HTTP/1.1" 200 -
+INFO:main:user with ID 3 passed 2 factor auth
+INFO:werkzeug:127.0.0.1 - - [03/Aug/2023 13:33:08] "[32mPOST /2fa/ HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [03/Aug/2023 13:33:08] "GET /admin HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [03/Aug/2023 13:33:09] "[33mGET /css/style.css HTTP/1.1[0m" 404 -
+INFO:main:user with id 3 signed out
+INFO:werkzeug:127.0.0.1 - - [03/Aug/2023 13:33:10] "[32mPOST /admin HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [03/Aug/2023 13:33:10] "GET /login HTTP/1.1" 200 -

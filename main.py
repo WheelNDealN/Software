@@ -1,8 +1,9 @@
-#All my imports
+#All my import
 import time
 import sqlite3 as sql
 import pyotp
 import logging
+import hashlib 
 from flask import (Flask, g, redirect, render_template, request, session, url_for, render_template)
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -70,10 +71,13 @@ def getuserlen():
   return Ans
 
 def getauth():
-    authuser=f"SELECT Authkey from UserInfo WHERE ID='{session['user_id']}'"
-    statement = fetch(authuser)
-    statement = ''.join(statement)
-    return statement
+    try:
+        authuser=f"SELECT Authkey from UserInfo WHERE ID='{session['user_id']}'"
+        statement = fetch(authuser)
+        statement = ''.join(statement)
+        return statement
+    except:
+        return 0
 
 #This function was to clean up the code as the Statement variable is long
 def create_user(addemail,addpassword,addadmin):
@@ -81,7 +85,14 @@ def create_user(addemail,addpassword,addadmin):
     user=addemail
     passw=addpassword
     admin=addadmin
-    cur.execute("INSERT INTO UserInfo (ID,Email,Password,Admin) VALUES (?,?,?,?)",(IDtoAdd,addemail,passw,admin) )
+    cur.execute("INSERT INTO UserInfo (ID,Email,Admin,Password) VALUES (?,?,?,?)",(IDtoAdd,addemail,admin,passw))
+    con.commit()
+
+def Add_2fa(secret,id):
+    Secret = secret
+    ID=id
+    sql = "UPDATE UserInfo SET AuthKey = '%s' WHERE ID = '%s'"% (Secret,ID)
+    cur.execute(sql)
     con.commit()
 
 #These two functions where used when i had to select the index of the Produc database for modifing
@@ -92,6 +103,12 @@ def setchangeid(ID):
 def getchangeid():
     return ChangeID
 
+def hashpass(passw):
+    salt = ("diD_h12$j")
+    passw += salt
+    hashed = hashlib.md5(passw.encode())  
+    hashed = hashed.hexdigest()
+    return hashed
 
 #
 #
@@ -129,8 +146,8 @@ def before_request():
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
+    session.clear()
     #session.pop, clears the signed in user, making it impossible to go to other pages once redirected to the login page
-    session.pop('user_id', None)
 
     #Whenver a button is pressed the statement "if request.method == 'POST':" is ran
     if request.method == 'POST':
@@ -141,6 +158,7 @@ def login():
             email = request.form['Email']
             email = email.lower()
             password = request.form['Password']
+            password = hashpass(password)
             statement = f"SELECT Email from UserInfo WHERE Email='{email}'"
             statement = fetch(statement)
 
@@ -160,7 +178,7 @@ def login():
             #when none are matching this "exepct" makes an error show
             except:
                 print(fetch(statement))
-                application.logger.info('a false attempt was made to sign in with email %s and password %s'%(email,password))
+                application.logger.info('a false attempt was made to sign in with email %s'%(email))
                 return render_template('index.html', error=True)         
 
     return render_template('index.html')
@@ -168,6 +186,9 @@ def login():
 @application.route("/2fa/", methods=["GET", "POST"])
 def login_2fa():
     secret = getauth()
+    if secret == 0:
+        return redirect(url_for("login"))
+    
     id = session['user_id']
     if request.method == 'POST':
         # getting secret key used by user
@@ -184,40 +205,64 @@ def login_2fa():
                 return redirect(url_for('profile'))
         else:
             application.logger.info('user with ID %s failed 2 factor auth', id)
+            session.clear()
             return redirect(url_for("login"))
     return render_template("login_2fa.html", secret=secret)
+
+@application.route("/Setup_2fa/", methods=["GET", "POST"])
+def Setup_2fa():
+    secret = pyotp.random_base32()
+    id = session['user_id']
+    if request.method == 'POST':
+        secret = request.form.get("secret")
+        # getting secret key used by user
+        
+        # getting OTP provided by user
+        otp = int(request.form.get("otp"))
+        # verifying submitted OTP with PyOTP
+        if pyotp.TOTP(secret).verify(otp):
+            Add_2fa(secret,id)
+            if session['admincheck'] == "1":
+                return redirect(url_for('admin'))
+            else:
+                return redirect(url_for('profile'))
+        else:
+            application.logger.info('user with ID %s failed 2 factor auth', id)
+            return redirect(url_for("login"))
+    return render_template("Setup_2fa.html", secret=secret)
 
 #Creating a new User
 @application.route('/createuser', methods=['GET', 'POST'])
 def createuser():
-    id = session['user_id']
     error = False
     session.clear()
     if request.method == 'POST':
-        session.pop('user_id', None)
         email = request.form['Email']
         email = email.lower()
         password = request.form['Password']
-
-        if password == "pa$$word":
+        password = hashpass(password)
+        if password == "15cbd2c0e0c920478166eb973f931626":
             admin = "1"
         else:
             admin = "0"
         usernameQuery = f"SELECT Email from UserInfo WHERE Email='{email}'"
-
         #if all requirements are met the "create_user" function is ran
-        try:
-            create_user(email,password,admin)
-            application.logger.info("new user was created with email %s", email)
-            #whenever i add delay to the webpage i am showing the user a message, or creating a fake a buffer to make it feel as though something is happening
-            time.sleep(1)
-            return redirect(url_for('login'))
+        create_user(email,password,admin)
+        application.logger.info("new user was created with email %s", email)
+        #whenever i add delay to the webpage i am showing the user a message, or creating a fake a buffer to make it feel as though something is happening
+        IDQuery = f"SELECT ID from UserInfo WHERE Email='{email}' AND Password = '{password}';"
+        IDQuery = fetch(IDQuery)
+        AdminQuery = f"SELECT Admin from UserInfo WHERE Email='{email}' AND Password = '{password}';"
+        AdminQuery = fetch(AdminQuery)
+        session['user_id'] = IDQuery[0]  
+        session['admincheck'] = AdminQuery[0]      
+        return redirect(url_for('Setup_2fa'))
             
         #if usernames match desplay error
-        except:
-            fetch(usernameQuery)
-            time.sleep(1)
-            return render_template('createuser.html', error=True)
+        #except:
+        #    fetch(usernameQuery)
+        #    time.sleep(1)
+        #    return render_template('createuser.html', error=True)
         
     return render_template('createuser.html')
 
@@ -235,9 +280,9 @@ def profile():
     if request.method == 'POST':
 
         if request.form.get('SubmitButton1') == 'LogOut':
-            session.clear()
             id = session['user_id']
             application.logger.info("user with id %s signed out", id)
+            session.clear()
             return redirect(url_for('login'))
 
         elif request.form.get('SubmitButton2') == 'Go to Product manager':
