@@ -59,8 +59,10 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-3-249-12-21.eu-west-1.compute.amazonaws.com "
-            echo "${USER_PASSWORD}" > su adam &&
+            su adam &&
+            ${USER_PASSWORD} &&
             cd ${APP_DIR} &&
-            echo ${USER_PASSWORD} git pull &&
-            echo ${USER_PASSWORD} > sudo python main.py "
+            git pull &&
+            ${USER_PASSWORD} &&
+            sudo python main.py"
 
