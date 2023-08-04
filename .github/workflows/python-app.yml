@@ -60,9 +60,9 @@ jobs:
           echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-3-249-12-21.eu-west-1.compute.amazonaws.com "
             su adam &&
-            ${USER_PASSWORD} &&
+            1 &&
             cd ${APP_DIR} &&
             git pull &&
-            ${USER_PASSWORD} &&
+            1 &&
             sudo python main.py"
 
