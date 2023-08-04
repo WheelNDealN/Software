@@ -1,5 +1,4 @@
 import pytest
-import pytest_flask
 from main import application
 
 @pytest.fixture()
