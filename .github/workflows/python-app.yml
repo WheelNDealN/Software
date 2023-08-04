@@ -58,7 +58,8 @@ jobs:
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          echo ${USER_PASSWORD} | ssh -o StrictHostKeyChecking=no -i private_key adam@${HOST_NAME} "
+          ssh -o StrictHostKeyChecking=no -i private_key adam@${HOST_NAME} "
+            echo ${USER_PASSWORD}
             cd ${APP_DIR} &&
             git pull &&
             echo ${USER_PASSWORD} | sudo python main.py "
