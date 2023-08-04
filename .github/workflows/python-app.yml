@@ -57,6 +57,7 @@ jobs:
           APP_DIR: ${{secrets.APP_DIR}}
 
         run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           ssh -o StrictHostKeyChecking=no -i private_key adam@${HOST_NAME} "
             echo ${USER_PASSWORD}
             cd ${APP_DIR} &&
