@@ -58,11 +58,8 @@ jobs:
 
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key adam@ec2-3-249-12-21.eu-west-1.compute.amazonaws.com "
-            su adam &&
-            1 &&
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-3-249-12-21.eu-west-1.compute.amazonaws.com "
             cd ${APP_DIR} &&
             git pull &&
-            1 &&
-            sudo python main.py"
+            python3 main.py"
 
