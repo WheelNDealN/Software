@@ -4,4 +4,6 @@
 /data.db
 /__pycache__
 /test.py
-template/manageticketchange.html
+/tests/__pycache__
+data.db
+/template/instance

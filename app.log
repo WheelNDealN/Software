@@ -1,0 +1,285 @@
+2023-08-04 11:07:46,747 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "c:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 11:10:30,003 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "c:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 11:38:56,082 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 11:39:16,727 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:14:26,087 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:15:06,889 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:16:03,710 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:17:14,593 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:18:08,599 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:27:32,250 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:27:39,205 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:29:34,358 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:32:40,830 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:33:20,927 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:33:36,540 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:36:32,148 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:44:49,444 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:45:00,563 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
+2023-08-04 12:46:55,131 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
