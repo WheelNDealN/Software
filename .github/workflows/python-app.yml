@@ -63,5 +63,6 @@ jobs:
           cd / &&
           cd /home/ubuntu/Software &&
           git pull &&
-          python3 main.py "
+          python3 main.py &&
+          exit"
 
