@@ -57,8 +57,8 @@ jobs:
           APP_DIR: ${{secrets.APP_DIR}}
 
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key adam@${HOST_NAME} "
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key adam@ec2-3-249-12-21.eu-west-1.compute.amazonaws.com
             echo ${USER_PASSWORD}
             cd ${APP_DIR} &&
             git pull &&
