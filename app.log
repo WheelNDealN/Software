@@ -283,3 +283,18 @@ Traceback (most recent call last):
   File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
     return super().__getitem__(key)
 KeyError: 'admincheck'
+2023-08-04 13:24:03,340 ERROR Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 2529, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1825, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\Wheel\Documents\Coding\agile-main - Copy\main.py", line 296, in admin
+    if session['admincheck'] == "1":
+  File "C:\Users\Wheel\AppData\Roaming\Python\Python37\site-packages\flask\sessions.py", line 80, in __getitem__
+    return super().__getitem__(key)
+KeyError: 'admincheck'
