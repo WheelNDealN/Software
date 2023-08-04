@@ -59,6 +59,7 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-3-249-12-21.eu-west-1.compute.amazonaws.com "
+          killall -e python3
           cd / &&
           cd /home/ubuntu/Software &&
           git pull &&
