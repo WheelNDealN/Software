@@ -61,4 +61,4 @@ jobs:
           echo ${USER_PASSWORD} | ssh -o StrictHostKeyChecking=no -i private_key adam@${HOST_NAME} "
             cd ${APP_DIR} &&
             git pull &&
-            echo ${USER_PASSWORD} | sudo python main.py
+            echo ${USER_PASSWORD} | sudo python main.py "
