@@ -501,4 +501,4 @@ def configureproduct():
     return render_template("Productconfig.html", data=data, Itemdata=Itemdata)
 
 if __name__ == '__main__':
-    application.run(port=8069,host="0.0.0.0")
+    application.run(port=5000,host="0.0.0.0")
