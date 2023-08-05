@@ -188,7 +188,7 @@ def login_2fa():
     secret = getauth()
     if secret == 0:
         return redirect(url_for("login"))
-    
+    adminch = session['admincheck']
     id = session['user_id']
     if request.method == 'POST':
         # getting secret key used by user
@@ -199,7 +199,7 @@ def login_2fa():
         # verifying submitted OTP with PyOTP
         if pyotp.TOTP(secret).verify(otp):
             application.logger.info('user with ID %s passed 2 factor auth', id)
-            if session['admincheck'] == "1":
+            if adminch == "1":
                 return redirect(url_for('admin'))
             else:
                 return redirect(url_for('profile'))
@@ -286,6 +286,7 @@ def profile():
             return redirect(url_for('login'))
 
         elif request.form.get('SubmitButton2') == 'Go to Product manager':
+            id = int(session['user_id'])
             return redirect(url_for('Productpage'))                       
 
     return render_template('profile.html')
@@ -312,6 +313,7 @@ def admin():
         
         return render_template('admin.html')
     else:
+        application.logger.info("User %i deleted inventory request with id %s ",id,Deleteid)
         return redirect(url_for('login'))
 
  

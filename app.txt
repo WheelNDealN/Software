@@ -1,0 +1,26 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8069
+ * Running on http://192.168.1.145:8069
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:45:42] "GET /login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:45:45] "[32mPOST /login HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:45:45] "GET /createuser HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:45:46] "GET /login HTTP/1.1" 200 -
+INFO:__init__:user with ID 1 signed in correctly
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:45:57] "[32mPOST /login HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:45:57] "GET /2fa/ HTTP/1.1" 200 -
+INFO:__init__:user with ID 1 passed 2 factor auth
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:11] "[32mPOST /2fa/ HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:11] "GET /profile HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:12] "[32mPOST /profile HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:12] "GET /Productpage HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:14] "[32mPOST /Productpage HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:14] "GET /createrequest HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:15] "[32mPOST /createrequest HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:15] "GET /Productpage HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:16] "[32mPOST /Productpage HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:16] "GET /profile HTTP/1.1" 200 -
+INFO:__init__:user with id 1 signed out
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:17] "[32mPOST /profile HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 14:46:17] "GET /login HTTP/1.1" 200 -
