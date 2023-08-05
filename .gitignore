@@ -2,8 +2,6 @@
 /data.db
 /UserInfo.db
 /data.db
-/__pycache__
 /test.py
-/tests/__pycache__
 data.db
 /template/instance

@@ -17,7 +17,6 @@ application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///Products.db"
 db = SQLAlchemy(application)
 con = sql.connect('Userdata.db', check_same_thread=False, timeout=10)
 cur = con.cursor()
-
 logging.basicConfig(filename = 'app.txt',level=logging.DEBUG,filemode='w')
 logger = logging.getLogger(__name__)
 handler = logging.FileHandler('app.log')
