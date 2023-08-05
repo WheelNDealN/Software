@@ -90,7 +90,7 @@ def setchangeid(ID):            #These two functions where used when i had to se
     global ChangeID
     ChangeID = ID
 
-def getchangeid():              #^^^^
+def getchangeid():              #mentioned above ^^^^
     return ChangeID
 
 def hashpass(passw):                    #This function hashes the password which i used a few times for refactoring code
@@ -120,7 +120,7 @@ def before_request():
             user = Ans[0][0]
             g.user = user
     except:
-        return render_template('index.html')                #return render_template, shows displayed whatever html file is given
+        return render_template('index.html')                #return render_template, displays whatever html file is given
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
@@ -152,6 +152,36 @@ def login():
                 return render_template('index.html', error=True)                    #when none are matching this "exepct" makes an error show
     return render_template('index.html')
 
+@application.route('/createuser', methods=['GET', 'POST'])
+def createuser():                                           #Creating a new User
+    error = False
+    session.clear()
+    if request.method == 'POST':
+        try:
+            email = request.form['Email']
+            email = email.lower()
+            password = request.form['Password']
+            password = hashpass(password)
+            if password == "15cbd2c0e0c920478166eb973f931626":               #this value is "pa$$word" hashed, i needed it for logging in
+                admin = "1"
+            else:
+                admin = "0"
+            usernameQuery = f"SELECT Email from UserInfo WHERE Email='{email}'"
+            create_user(email,password,admin)                                                        #if all requirements are met the "create_user" function is ran
+            application.logger.info("new user was created with email %s", email)
+            IDQuery = f"SELECT ID from UserInfo WHERE Email='{email}' AND Password = '{password}';"
+            IDQuery = fetch(IDQuery)
+            AdminQuery = f"SELECT Admin from UserInfo WHERE Email='{email}' AND Password = '{password}';"
+            AdminQuery = fetch(AdminQuery)
+            session['user_id'] = IDQuery[0]  
+            session['admincheck'] = AdminQuery[0]      
+            return redirect(url_for('Setup_2fa'))                               #if all correct go to 2 factor auth
+        except:                                         #if usernames match desplay error
+            fetch(usernameQuery)
+            time.sleep(1)
+            return render_template('createuser.html', error=True) #if error is true it changes the html to show
+    return render_template('createuser.html')
+
 @application.route("/2fa/", methods=["GET", "POST"])
 def login_2fa():                                                 #this part is for the login 2factor auth once it works
     secret = getauth()
@@ -167,23 +197,19 @@ def login_2fa():                                                 #this part is f
                 return redirect(url_for('admin'))
             else:
                 return redirect(url_for('profile'))
-        else:
-            application.logger.info('user with ID %s failed 2 factor auth', id)                         #
+        else:                                                                               #when a user fails to sign in with 2fa it outputs who tried incorrectly to login and sends them to login page
+            application.logger.info('user with ID %s failed 2 factor auth', id)
             session.clear()
             return redirect(url_for("login"))
     return render_template("login_2fa.html", secret=secret)
 
 @application.route("/Setup_2fa/", methods=["GET", "POST"])
-def Setup_2fa():
+def Setup_2fa():                                                #new user creation sends them here to set up 2fa its mostly the same code as above with slight change in html and code
     secret = pyotp.random_base32()
     id = session['user_id']
     if request.method == 'POST':
         secret = request.form.get("secret")
-        # getting secret key used by user
-        
-        # getting OTP provided by user
         otp = int(request.form.get("otp"))
-        # verifying submitted OTP with PyOTP
         if pyotp.TOTP(secret).verify(otp):
             Add_2fa(secret,id)
             if session['admincheck'] == "1":
@@ -195,54 +221,14 @@ def Setup_2fa():
             return redirect(url_for("login"))
     return render_template("Setup_2fa.html", secret=secret)
 
-#Creating a new User
-@application.route('/createuser', methods=['GET', 'POST'])
-def createuser():
-    error = False
-    session.clear()
-    if request.method == 'POST':
-        email = request.form['Email']
-        email = email.lower()
-        password = request.form['Password']
-        password = hashpass(password)
-        if password == "15cbd2c0e0c920478166eb973f931626":
-            admin = "1"
-        else:
-            admin = "0"
-        usernameQuery = f"SELECT Email from UserInfo WHERE Email='{email}'"
-        #if all requirements are met the "create_user" function is ran
-        create_user(email,password,admin)
-        application.logger.info("new user was created with email %s", email)
-        #whenever i add delay to the webpage i am showing the user a message, or creating a fake a buffer to make it feel as though something is happening
-        IDQuery = f"SELECT ID from UserInfo WHERE Email='{email}' AND Password = '{password}';"
-        IDQuery = fetch(IDQuery)
-        AdminQuery = f"SELECT Admin from UserInfo WHERE Email='{email}' AND Password = '{password}';"
-        AdminQuery = fetch(AdminQuery)
-        session['user_id'] = IDQuery[0]  
-        session['admincheck'] = AdminQuery[0]      
-        return redirect(url_for('Setup_2fa'))
-            
-        #if usernames match desplay error
-        #except:
-        #    fetch(usernameQuery)
-        #    time.sleep(1)
-        #    return render_template('createuser.html', error=True)
-        
-    return render_template('createuser.html')
-
-#This page is very simple but i wanted a page for logging out and a choice to going into the main page
-@application.route('/profile', methods=['GET','POST'])
+@application.route('/profile', methods=['GET','POST'])          #This page is very simple but i wanted a page for logging out and a choice to going into the main page
 def profile():
-    #this checks for a signed in user otherwise you are redirected to the login page
-    try:
+    try:                  #this checks for a signed in user otherwise you are redirected to the login page
         if not g.user:
             return redirect(url_for('login'))
-            
     except:
         return redirect(url_for('login'))
-
     if request.method == 'POST':
-
         if request.form.get('SubmitButton1') == 'LogOut':
             id = session['user_id']
             application.logger.info("user with id %s signed out", id)
@@ -251,12 +237,10 @@ def profile():
 
         elif request.form.get('SubmitButton2') == 'Go to Product manager':
             id = int(session['user_id'])
-            return redirect(url_for('Productpage'))                       
-
+            return redirect(url_for('Productpage'))                       #go to regular inventory manage
     return render_template('profile.html')
 
-#this is similar to the regular user however it is for an admin
-@application.route('/admin', methods=['GET','POST'])
+@application.route('/admin', methods=['GET','POST'])                            #this is similar to the regular user however it is for an admin
 def admin():
     if session['admincheck'] == "1":                                                             
         try:
@@ -264,26 +248,19 @@ def admin():
                 return redirect(url_for('login'))
         except:
             return redirect(url_for('login'))
-        
         if request.method == 'POST':
             if request.form.get('LogOut') == 'LogOut':
                 id = session['user_id']
                 application.logger.info("user with id %s signed out", id)
                 session.clear()
                 return redirect(url_for('login'))
-                    
             elif request.form.get('SubmitButton2') == 'Go to admin inventory':
-                return redirect(url_for('adminrequestmanager'))
-        
+                return redirect(url_for('adminrequestmanager'))                             #go to admin inventory manage
         return render_template('admin.html')
     else:
-        Deleteid = request.form['id']
-        application.logger.info("User %i deleted inventory request with id %s ",id,Deleteid)
         return redirect(url_for('login'))
 
- 
-#This page displays all of the tickets and gives options for modifying for regular users
-@application.route('/Productpage', methods=['GET','POST'])
+@application.route('/Productpage', methods=['GET','POST'])                  #This page displays all of the tickets and gives options for modifying for regular users
 def Productpage():
     data = Userdb.query.order_by(Userdb.TID)
     try:
@@ -291,163 +268,63 @@ def Productpage():
             return redirect(url_for('login'))
     except:
         return redirect(url_for('login'))
-
     if request.method == 'POST':
         if request.form.get('SubmitButton') == 'Go to Profile':
             if session['admincheck'] == "1":
                 return redirect(url_for("admin"))
             else:
                 return redirect(url_for('profile'))
-
         elif request.form.get('SubmitButton') == 'Modify':
             ChangeID = request.form['id']
             setchangeid(ChangeID)
-
-            return redirect(url_for("configureproduct"))
-            
+            return redirect(url_for("configureproduct"))                                #if you select an id to modify it takes you to the modify page with the request to modify
         elif request.form.get('SubmitButton2') == 'createrequest':
             return redirect(url_for("createrequest"))
-        
     return render_template("manage.html", data=data)
 
-#this allows admins to add more products on the requests section. Also added ability to delete products if no longer needed.
-@application.route('/adminrequestmanager', methods=['GET','POST'])
-def adminrequestmanager():
-    if session['admincheck'] == "1":   
-        id = int(session['user_id'])
-        data = Userdb.query.order_by(Userdb.TID)
-        try:
-            if not g.user:
-                return redirect(url_for('login'))
-        except:
-            return redirect(url_for('login'))
-
-        if request.method == 'POST':
-
-            if request.form.get('SubmitButton') == 'Go to Profile':
-                return redirect(url_for('admin')) 
-
-            elif request.form.get('SubmitButton') == 'Modify':
-                ChangeID = request.form['id']
-                setchangeid(ChangeID)
-
-                return redirect(url_for("configureproduct"))
-                    
-            elif request.form.get('SubmitButton') == 'Delete':
-                Deleteid = request.form['id']
-                Userdb.query.filter(Userdb.TID == Deleteid).delete()
-                data = Userdb.query.order_by(Userdb.TID)
-                db.session.commit()
-                application.logger.info("User %s deleted inventory request with id %s" % (id,Deleteid))
-                time.sleep(1)
-                return redirect(url_for("adminrequestmanager")) 
-
-            elif request.form.get('SubmitButton2') == 'Go to admin inventory management':
-                return redirect(url_for("admininventory"))
-            
-        return render_template("adminmanage.html", data=data)
-    else:
-        return redirect(url_for('login'))
-
-@application.route('/createrequest', methods=['GET','POST'])
+@application.route('/createrequest', methods=['GET','POST'])                            #for regular users to create new requests for a product
 def createrequest():
     try:
         if not g.user:
             return redirect(url_for('login'))
-            
     except:
         return redirect(url_for('login'))
-
     if request.form.get('SubmitButton') == 'Go to manager':
             return redirect(url_for('Productpage')) 
-
-    #based on what was inputed into the sections a new product request is created
-    if request.form.get('SubmitButton') == 'Submit':
+    if request.form.get('SubmitButton') == 'Submit':                                #based on what was inputed into the sections a new product request is created
         InputEmail = request.form['Email']
         select = request.form.get('New Product')
         length = int(getlength())+1
-        newinfo = Userdb(TID= length,Product=select,Email_Address=InputEmail)
+        newinfo = Userdb(TID= length,Product=select,Email_Address=InputEmail)               #this selexts the information that is going to be deleted
         db.session.add(newinfo)
         db.session.commit()
         id = session['user_id']
         application.logger.info("user with id %s created a new request of %s" % (id,select))
         time.sleep(1)
-
         if session['admincheck'] == "1":
             return redirect(url_for('createrequest'))
-
         else:
             return redirect(url_for('Productpage'))
     data = Items.query.order_by(Items.ID)
     return render_template("Requestequipment.html", data=data)
 
-@application.route('/admininventory', methods=['GET','POST'])
-def admininventory():
-    if session['admincheck'] == "1":   
-        try:
-            if not g.user:
-                return redirect(url_for('login'))
-        except:
-            return redirect(url_for('login'))
-
-        if request.form.get('SubmitButton') == 'Go to manager':
-                return redirect(url_for('adminrequestmanager')) 
-
-        #based on what was inputed into the sections a new product is created
-        if request.form.get('SubmitButton') == 'Add':
-            select = request.form.get('Product')
-            length = int(getlengthItems())+1
-            newinfo = Items(ID= length,Device=select)
-            db.session.add(newinfo)
-            db.session.commit()
-            id = session['user_id']
-            application.logger.info("user with id %s added a new inventory option of %s" % (id,select))
-            time.sleep(1)
-
-        if request.form.get('SubmitButton') == 'Delete':
-            select = request.form.get('ID')  
-            data = Userdb.query.order_by(Userdb.TID)
-            id = session['user_id']
-            application.logger.info("user with id %s deleted inventory with id of %s" % (id,data))
-            Items.query.filter(Items.ID == select).delete()
-            db.session.commit()
-            time.sleep(1)
-            
-            if session['admincheck'] == "1":
-                return redirect(url_for('adminrequestmanager'))
-
-            else:
-                return redirect(url_for('Productpage'))
-            
-        data = Items.query.order_by(Items.ID)
-        return render_template("admininventorymanage.html", data=data)
-    else:
-        return redirect(url_for('login'))
-    
-
-#this is for changing the ticket information that i thought was important
-@application.route('/configureproduct', methods=['GET','POST'])
+@application.route('/configureproduct', methods=['GET','POST'])                         #this is for changing the inventory request information
 def configureproduct():
     ChangeID = getchangeid()
     data= Userdb.query.filter(Userdb.TID == ChangeID)
-
     try:
         if not g.user:
             return redirect(url_for('login'))
     except:
         return redirect(url_for('login'))
-        
     if request.method == 'POST':
-
         if request.form.get('SubmitButton') == 'Go to Product Manager':
             if session['admincheck'] == "1":
                 return redirect(url_for('adminrequestmanager'))
             else:
                 return redirect(url_for('Productpage'))
-        
         elif request.form.get('SubmitButton') == 'Submit':
-            #only the email and issue is changed as i thought it was important to show the data it was created rather than modified
-            EmailChange = request.form['Email']
+            EmailChange = request.form['Email']                                   #only the email and issue is changed as i thought it was important to show the data it was created rather than modified
             select = request.form['New Product']
             id = session['user_id']
             application.logger.info("user with id %s modified invenotry request id %s" % (id,ChangeID))
@@ -455,14 +332,80 @@ def configureproduct():
             data.update({'Product': select})
             db.session.commit()
             time.sleep(1)
-            #this ensures that the user is directed the correct page after modifing
-            if session['admincheck'] == "1":
+            if session['admincheck'] == "1":                            #this ensures that the user is directed the correct page after modifing
                 return redirect(url_for('adminrequestmanager'))
             else:
                 return redirect(url_for('Productpage'))
             
     Itemdata = Items.query.order_by(Items.ID)
     return render_template("Productconfig.html", data=data, Itemdata=Itemdata)
+
+@application.route('/adminrequestmanager', methods=['GET','POST'])                      #this allows admins to add more products on the requests section. Also added ability to delete products if no longer needed.
+def adminrequestmanager():
+    if session['admincheck'] == "1":   
+        id = int(session['user_id'])
+        data = Userdb.query.order_by(Userdb.TID)                            #sorting the data based on id number
+        try:
+            if not g.user:
+                return redirect(url_for('login'))
+        except:
+            return redirect(url_for('login'))
+        if request.method == 'POST':
+            if request.form.get('SubmitButton') == 'Go to Profile':
+                return redirect(url_for('admin')) 
+            elif request.form.get('SubmitButton') == 'Modify':                      #same as regular uses modify page
+                ChangeID = request.form['id']
+                setchangeid(ChangeID)
+                return redirect(url_for("configureproduct"))
+            elif request.form.get('SubmitButton') == 'Delete':                      #admins have option to delete requests for when they are completed
+                Deleteid = request.form['id']
+                Userdb.query.filter(Userdb.TID == Deleteid).delete()
+                data = Userdb.query.order_by(Userdb.TID)
+                db.session.commit()
+                application.logger.info("User %s deleted inventory request with id %s" % (id,Deleteid))
+                time.sleep(1)
+                return redirect(url_for("adminrequestmanager")) 
+            elif request.form.get('SubmitButton2') == 'Go to admin inventory management':
+                return redirect(url_for("admininventory"))
+        return render_template("adminmanage.html", data=data)
+    else:
+        return redirect(url_for('login'))
+
+@application.route('/admininventory', methods=['GET','POST'])               #this is for the admin to create new products that are up for request
+def admininventory():
+    if session['admincheck'] == "1":   
+        try:
+            if not g.user:
+                return redirect(url_for('login'))
+        except:
+            return redirect(url_for('login'))
+        if request.form.get('SubmitButton') == 'Go to manager':
+                return redirect(url_for('adminrequestmanager'))             
+        if request.form.get('SubmitButton') == 'Add':
+            select = request.form.get('Product')                            #based on what was inputed into the sections a new product is created
+            length = int(getlengthItems())+1
+            newinfo = Items(ID= length,Device=select)
+            db.session.add(newinfo)
+            db.session.commit()
+            id = session['user_id']
+            application.logger.info("user with id %s added a new inventory option of %s" % (id,select))
+            time.sleep(1)
+        if request.form.get('SubmitButton') == 'Delete':                      #this is for the delete option in the admin page for deleting old products
+            select = request.form.get('ID')  
+            data = Userdb.query.order_by(Userdb.TID)
+            id = session['user_id']
+            application.logger.info("user with id %s deleted inventory with id of %s" % (id,data))
+            Items.query.filter(Items.ID == select).delete()
+            db.session.commit()
+            time.sleep(1)
+            if session['admincheck'] == "1":
+                return redirect(url_for('adminrequestmanager'))
+            else:
+                return redirect(url_for('Productpage'))
+        data = Items.query.order_by(Items.ID)
+        return render_template("admininventorymanage.html", data=data)
+    else:
+        return redirect(url_for('login'))
 
 if __name__ == '__main__':
     application.run(port=5000,host="0.0.0.0")
