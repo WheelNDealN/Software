@@ -11,10 +11,10 @@ and type in the time limited code that pops up this will sign you in.
 However its important to know if you dont set up 2fa correctly
 you are unable to get the code again. Idealy i was going
 to implement an email service however i found out they are all 
-ubscription based and they cost alot of money so decided its best to have it displayed once.
-to modify or change anything it all runs of the id you provide,
-its next to whatever you need to change, simply type the number
-then press an assosiated button that you want to complete.
+ubscription based and they cost alot of money so decided its best to
+have it displayed once. to modify or change anything it all runs of the
+id you provide, its next to whatever you need to change, simply type the
+number then press an assosiated button that you want to complete.
 
                 ----Admin acocunt----
 An admin account can be made by using the password "pa$$word",
