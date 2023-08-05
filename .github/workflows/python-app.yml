@@ -36,3 +36,33 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run unit tests
       run: python -m pytest -v -s
+
+  DeployDev:
+    name: Deploy to Dev
+    # if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: Development
+
+    steps:
+
+      - name: Deploy
+        run: echo I am deploying the api to AWS
+
+      - name: Deploy in EC2
+        env:
+          PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
+          HOST_NAME : ${{ secrets.HOST_NAME  }}
+          USER_NAME : ${{ secrets.USER_NAME  }}
+          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+          APP_DIR: ${{secrets.APP_DIR}}
+
+        run: |
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-3-249-12-21.eu-west-1.compute.amazonaws.com "
+          killall -e python3
+          cd / &&
+          cd /home/ubuntu/Software &&
+          git pull &&
+          python3 main.py &&
+          exit"
