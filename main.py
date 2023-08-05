@@ -13,6 +13,7 @@ from sqlalchemy import update
 #This is set up for databases and for the flask server
 application = Flask(__name__, template_folder='template')
 application.secret_key = 'supersecret'
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///Products.db"
 db = SQLAlchemy(application)
 con = sql.connect('Userdata.db', check_same_thread=False, timeout=10)
