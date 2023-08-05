@@ -1,5 +1,4 @@
-#All my import
-import time
+import time         #All my imports for the project.
 import sqlite3 as sql
 import pyotp
 import logging
@@ -9,68 +8,61 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy import update
 
-
-#This is set up for databases and for the flask server
-application = Flask(__name__, template_folder='template')
+application = Flask(__name__, template_folder='template')           #This is my sql setup giving access to the flask application.
 application.secret_key = 'supersecret'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///Products.db"
 db = SQLAlchemy(application)
 con = sql.connect('Userdata.db', check_same_thread=False, timeout=10)
 cur = con.cursor()
-logging.basicConfig(filename = 'app.txt',level=logging.DEBUG,filemode='w')
+
+logging.basicConfig(filename = 'app.txt',level=logging.DEBUG,filemode='w')          #this is where i set up the logging for my code.
 logger = logging.getLogger(__name__)
 handler = logging.FileHandler('app.log')
 formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-
-class Items(db.Model):
+class Items(db.Model):          #here i have the items database for new product requests.
     ID = db.Column(db.Integer, primary_key=True)
     Device = db.Column(db.Text)
-
     def __repr__(self):
         return '<device %r>' %self.Device
 
-#This is my Ticket Database, with all the limitations and format options
-class Userdb(db.Model):
+class Userdb(db.Model):         #This is my Database for each new request where TID is the primary key.
     TID = db.Column(db.Integer, primary_key=True)
     Product = db.Column(db.String(64), index=True, default = "Product")
     Email_Address = db.Column(db.String(25), default = "Email Address")
     Date = db.Column(db.String, default = datetime.utcnow)
-
     def __repr__(self):
         return '<Product %r>' %self.Date
 
-ChangeID=0
+ChangeID=0      #these two variables i needed to be set to a default value
 GobEmail = ""
 
-#Same as getting the Users length this one is for the tickets, allowing me to add one to the ID when a new one is created
-def getlength():
+#all next few functions are where i refactored my code.
+def getlength():        #This function was to reduce repeating code when trying to find the next available id number to assign.
     try:
         ordered = Userdb.query.order_by(Userdb.TID.desc())
         return ordered[0].TID
     except:
         return -1
 
-#Same as getting the Users length this one is for the tickets, allowing me to add one to the ID when a new one is created
-def getlengthItems():
+def getlengthItems():       #Same as getting the getlength however for the new products that can be created.
     try:
         ordered = Items.query.order_by(Items.ID.desc())
         return ordered[0].ID
     except:
         return -1
 
-#refactored function for getting the length of my Users, this is useful for the primary key going up when a user is added
-def getuserlen():
+def getuserlen():       #refactored function for getting the length of my Users, this is useful for the primary key going up when a user is added.
   ordered = """SELECT ID FROM UserInfo ORDER BY ID DESC;"""
   cur.execute(ordered)
   Ans = cur.fetchall()
   Ans = Ans[0][0]
   return Ans
 
-def getauth():
+def getauth():      #this is for the 2factor authentification, getting the token used on the app to check for the correct code
     try:
         authuser=f"SELECT Authkey from UserInfo WHERE ID='{session['user_id']}'"
         statement = fetch(authuser)
@@ -79,8 +71,7 @@ def getauth():
     except:
         return 0
 
-#This function was to clean up the code as the Statement variable is long
-def create_user(addemail,addpassword,addadmin):
+def create_user(addemail,addpassword,addadmin):     #This function was to clean up the code as the Statement variable is long
     IDtoAdd = int(getuserlen()+1)
     user=addemail
     passw=addpassword
@@ -88,40 +79,28 @@ def create_user(addemail,addpassword,addadmin):
     cur.execute("INSERT INTO UserInfo (ID,Email,Admin,Password) VALUES (?,?,?,?)",(IDtoAdd,addemail,admin,passw))
     con.commit()
 
-def Add_2fa(secret,id):
+def Add_2fa(secret,id):         #This function addd the secret auth key google to the user data base 
     Secret = secret
     ID=id
     sql = "UPDATE UserInfo SET AuthKey = '%s' WHERE ID = '%s'"% (Secret,ID)
     cur.execute(sql)
     con.commit()
 
-#These two functions where used when i had to select the index of the Produc database for modifing
-def setchangeid(ID):
+def setchangeid(ID):            #These two functions where used when i had to select the index of the Product database for modifing
     global ChangeID
     ChangeID = ID
 
-def getchangeid():
+def getchangeid():              #^^^^
     return ChangeID
 
-def hashpass(passw):
+def hashpass(passw):                    #This function hashes the password which i used a few times for refactoring code
     salt = ("diD_h12$j")
     passw += salt
     hashed = hashlib.md5(passw.encode())  
     hashed = hashed.hexdigest()
     return hashed
 
-#
-#
-#test application and then deploy the code
-#one workflow with two jobs
-#add logging
-#admin has to create an admin account
-#
-#
-
-
-#This is me refactoring SQLite as this sequence of code had to be ran many times and this made my code look nicer and stopped repetition
-def fetch(Query):
+def fetch(Query):               #This is me refactoring SQLite as this sequence of code had to be ran many times and this made my code look nicer and stopped repetition
     try:
         statement = Query
         cur.execute(statement)
@@ -131,8 +110,7 @@ def fetch(Query):
     except:
         return False
 
-#This is ran before every change of url, this allows me to check if the user is signed in, if they are not they are redirected to the login screen.
-@application.before_request
+@application.before_request             #This is ran before every change of url, this allows me to check if the user is signed in, if they are not they are redirected to the login screen.
 def before_request():
     try:
         if "user_id" in session:
@@ -142,69 +120,55 @@ def before_request():
             user = Ans[0][0]
             g.user = user
     except:
-        return render_template('index.html')
+        return render_template('index.html')                #return render_template, shows displayed whatever html file is given
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
-    session.clear()
-    #session.pop, clears the signed in user, making it impossible to go to other pages once redirected to the login page
-
-    #Whenver a button is pressed the statement "if request.method == 'POST':" is ran
-    if request.method == 'POST':
+    session.clear()                 #session.pop, clears the signed in user, making it impossible to go to other pages once redirected to the login page
+    if request.method == 'POST':                    #Whenver a button is pressed the statement "if request.method == 'POST':" is ran
         if request.form.get('SubmitButton') == 'CreateUser':
             return redirect(url_for('createuser'))
-            
         if request.form.get('SubmitButton') == 'Submit':
             email = request.form['Email']
             email = email.lower()
             password = request.form['Password']
-            password = hashpass(password)
+            password = hashpass(password)                        #using the has function mentioned earlier
             statement = f"SELECT Email from UserInfo WHERE Email='{email}'"
             statement = fetch(statement)
-
-            #this try method checks for matching usernames and signs them in if they are matching
             try:
                 if statement[0] == email:
-                    IDQuery = f"SELECT ID from UserInfo WHERE Email='{email}' AND Password = '{password}';"
+                    IDQuery = f"SELECT ID from UserInfo WHERE Email='{email}' AND Password = '{password}';"                #gets the id from the database where email and password matches
                     IDQuery = fetch(IDQuery)
-                    AdminQuery = f"SELECT Admin from UserInfo WHERE Email='{email}' AND Password = '{password}';"
+                    AdminQuery = f"SELECT Admin from UserInfo WHERE Email='{email}' AND Password = '{password}';"          #gets the admin bolean of matching sign in
                     AdminQuery = fetch(AdminQuery)
-                    session['user_id'] = IDQuery[0]  
-                    session['admincheck'] = AdminQuery[0]      
+                    session['user_id'] = IDQuery[0]
+                    session['admincheck'] = AdminQuery[0]
                     id = session['user_id']
-                    application.logger.info('user with ID %s signed in correctly', id)
+                    application.logger.info('user with ID %s signed in correctly', id)                    #this outputs a log to the app.log file saying if something signs in correctly and gives their id
                     return redirect(url_for("login_2fa"))
-                       
-            #when none are matching this "exepct" makes an error show
             except:
                 print(fetch(statement))
                 application.logger.info('a false attempt was made to sign in with email %s'%(email))
-                return render_template('index.html', error=True)         
-
+                return render_template('index.html', error=True)                    #when none are matching this "exepct" makes an error show
     return render_template('index.html')
 
 @application.route("/2fa/", methods=["GET", "POST"])
-def login_2fa():
+def login_2fa():                                                 #this part is for the login 2factor auth once it works
     secret = getauth()
     if secret == 0:
         return redirect(url_for("login"))
     adminch = session['admincheck']
     id = session['user_id']
     if request.method == 'POST':
-        # getting secret key used by user
-
-        # getting OTP provided by user
-        otp = int(request.form.get("otp"))
-
-        # verifying submitted OTP with PyOTP
-        if pyotp.TOTP(secret).verify(otp):
+        otp = int(request.form.get("otp"))                      # getting OTP provided by use
+        if pyotp.TOTP(secret).verify(otp):                               # verifying submitted OTP with PyOTP
             application.logger.info('user with ID %s passed 2 factor auth', id)
-            if adminch == "1":
+            if adminch == "1":                                          #sends you to the correct page based on admin or not
                 return redirect(url_for('admin'))
             else:
                 return redirect(url_for('profile'))
         else:
-            application.logger.info('user with ID %s failed 2 factor auth', id)
+            application.logger.info('user with ID %s failed 2 factor auth', id)                         #
             session.clear()
             return redirect(url_for("login"))
     return render_template("login_2fa.html", secret=secret)
