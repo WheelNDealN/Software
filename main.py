@@ -313,6 +313,7 @@ def admin():
         
         return render_template('admin.html')
     else:
+        Deleteid = request.form['id']
         application.logger.info("User %i deleted inventory request with id %s ",id,Deleteid)
         return redirect(url_for('login'))
 
@@ -373,8 +374,7 @@ def adminrequestmanager():
                 Userdb.query.filter(Userdb.TID == Deleteid).delete()
                 data = Userdb.query.order_by(Userdb.TID)
                 db.session.commit()
-                Deleted = str(request.form['id'])
-                application.logger.info("User %s deleted inventory request with id %s" % (id,Deleted))
+                application.logger.info("User %s deleted inventory request with id %s" % (id,Deleteid))
                 time.sleep(1)
                 return redirect(url_for("adminrequestmanager")) 
 
