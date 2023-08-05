@@ -7,3 +7,4 @@ data.db
 /template/instance
 tdata.py
 test.txt
+ec2.pem
