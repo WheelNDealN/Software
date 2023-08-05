@@ -299,7 +299,7 @@ def createrequest():
         db.session.add(newinfo)
         db.session.commit()
         id = session['user_id']
-        application.logger.info("user with id %s created a new request of %s" % (id,select))
+        application.logger.info("user with id %s created a new request of %s" % (id, select))
         time.sleep(1)
         if session['admincheck'] == "1":
             return redirect(url_for('createrequest'))
@@ -327,7 +327,7 @@ def configureproduct():
             EmailChange = request.form['Email']                                   #only the email and issue is changed as i thought it was important to show the data it was created rather than modified
             select = request.form['New Product']
             id = session['user_id']
-            application.logger.info("user with id %s modified invenotry request id %s" % (id,ChangeID))
+            application.logger.info("user with id %s modified invenotry request id %s" % (id, ChangeID))
             data.update({'Email_Address': EmailChange})
             data.update({'Product': select})
             db.session.commit()
@@ -336,7 +336,6 @@ def configureproduct():
                 return redirect(url_for('adminrequestmanager'))
             else:
                 return redirect(url_for('Productpage'))
-            
     Itemdata = Items.query.order_by(Items.ID)
     return render_template("Productconfig.html", data=data, Itemdata=Itemdata)
 
@@ -362,7 +361,7 @@ def adminrequestmanager():
                 Userdb.query.filter(Userdb.TID == Deleteid).delete()
                 data = Userdb.query.order_by(Userdb.TID)
                 db.session.commit()
-                application.logger.info("User %s deleted inventory request with id %s" % (id,Deleteid))
+                application.logger.info("User %s deleted inventory request with id %s" % (id, Deleteid))
                 time.sleep(1)
                 return redirect(url_for("adminrequestmanager")) 
             elif request.form.get('SubmitButton2') == 'Go to admin inventory management':
@@ -388,13 +387,13 @@ def admininventory():
             db.session.add(newinfo)
             db.session.commit()
             id = session['user_id']
-            application.logger.info("user with id %s added a new inventory option of %s" % (id,select))
+            application.logger.info("user with id %s added a new inventory option of %s" % (id, select))
             time.sleep(1)
         if request.form.get('SubmitButton') == 'Delete':                      #this is for the delete option in the admin page for deleting old products
             select = request.form.get('ID')  
             data = Userdb.query.order_by(Userdb.TID)
             id = session['user_id']
-            application.logger.info("user with id %s deleted inventory with id of %s" % (id,data))
+            application.logger.info("user with id %s deleted inventory with id of %s" % (id, data))
             Items.query.filter(Items.ID == select).delete()
             db.session.commit()
             time.sleep(1)
@@ -407,5 +406,5 @@ def admininventory():
     else:
         return redirect(url_for('login'))
 
-if __name__ == '__main__':
+if __name__ == '__main__':                                      #tells it what port to host it on
     application.run(port=5000,host="0.0.0.0")
