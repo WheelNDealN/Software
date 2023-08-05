@@ -369,11 +369,12 @@ def adminrequestmanager():
                 return redirect(url_for("configureproduct"))
                     
             elif request.form.get('SubmitButton') == 'Delete':
+                Deleteid = request.form['id']
                 Userdb.query.filter(Userdb.TID == Deleteid).delete()
                 data = Userdb.query.order_by(Userdb.TID)
                 db.session.commit()
-                Deleteid = request.form['id']
-                application.logger.info("User %i deleted inventory request with id %s ",id,Deleteid)
+                Deleted = str(request.form['id'])
+                application.logger.info("User %s deleted inventory request with id %s" % (id,Deleted))
                 time.sleep(1)
                 return redirect(url_for("adminrequestmanager")) 
 
