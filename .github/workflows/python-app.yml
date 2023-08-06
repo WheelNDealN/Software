@@ -43,27 +43,15 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: Development
-
     steps:
+      - uses: actions/checkout@v2  
+      - uses: actions/setup-python@v2  
+      - run: pip install -r requirements.txt  # install requirements to enable GitHub run tests
 
-      - name: Deploy
-        run: echo I am deploying the api to AWS
+      - uses: adwheele/heroku-deploy@v3.12.12 #
+        with:
+          heroku_api_key: fd5f388c-ab7b-455c-9eb1-f50466e7a355
+          heroku_app_name: wheelerassignment
+          heroku_email: adwheele@cisco.com
 
-      - name: Deploy in EC2
-        env:
-          PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
-          HOST_NAME : ${{ secrets.HOST_NAME  }}
-          USER_NAME : ${{ secrets.USER_NAME  }}
-          USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
-          APP_DIR: ${{secrets.APP_DIR}}
 
-        run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-3-249-12-21.eu-west-1.compute.amazonaws.com "
-          cd / &&
-          cd /home/ubuntu/Software &&
-          sudo killall -e python3 &&
-          git stash &&
-          git pull &&
-          sudo python3 main.py&&
-          exit"
