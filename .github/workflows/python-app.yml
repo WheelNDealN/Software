@@ -48,7 +48,7 @@ jobs:
       - uses: actions/setup-python@v2  
       - run: pip install -r requirements.txt  # install requirements to enable GitHub run tests
 
-      - uses: adwheele/heroku-deploy@v3.12.12 #
+      - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: fd5f388c-ab7b-455c-9eb1-f50466e7a355
           heroku_app_name: wheelerassignment
