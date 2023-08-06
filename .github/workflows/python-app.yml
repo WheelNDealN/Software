@@ -62,7 +62,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@ec2-3-249-12-21.eu-west-1.compute.amazonaws.com "
           cd / &&
           cd /home/ubuntu/Software &&
-          kill -9 `cat save_pid.txt` &&
+          sudo kill -9 `cat save_pid.txt` &&
           git stash &&
           git pull &&
           sudo nohup python3 main.py > app.txt 2>&1 &~ &&
