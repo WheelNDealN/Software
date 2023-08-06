@@ -42,3 +42,4 @@ pytest-cache==1.0
 pytest-flask==1.2.0
 pytest-pep8==1.0.6
 pyotp==2.9.0
+gunicorn==21.2.0
