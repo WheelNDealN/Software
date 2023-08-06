@@ -65,5 +65,4 @@ jobs:
           cd /home/ubuntu/Software &&
           git stash &&
           git pull &&
-          python3 main.py &&
-          exit"
+          nohup python3 main.py <&-"
