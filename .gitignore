@@ -8,3 +8,4 @@ data.db
 tdata.py
 test.txt
 ec2.pem
+ec2.ppk

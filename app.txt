@@ -3,43 +3,20 @@ INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a
  * Running on http://127.0.0.1:5000
  * Running on http://192.168.1.145:5000
 INFO:werkzeug:[33mPress CTRL+C to quit[0m
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:15] "[32mPOST /Productpage HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:15] "GET /configureproduct HTTP/1.1" 200 -
-INFO:main:user with id 1 modified invenotry request id 3
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:20] "[32mPOST /configureproduct HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:20] "GET /Productpage HTTP/1.1" 200 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:24] "[32mPOST /Productpage HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:24] "GET /profile HTTP/1.1" 200 -
-INFO:main:user with id 1 signed out
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:24] "[32mPOST /profile HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:24] "GET /login HTTP/1.1" 200 -
-INFO:main:user with ID 3 signed in correctly
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:27] "[32mPOST /login HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:27] "GET /2fa/ HTTP/1.1" 200 -
-INFO:main:user with ID 3 passed 2 factor auth
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:35] "[32mPOST /2fa/ HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:35] "GET /admin HTTP/1.1" 200 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:35] "[33mGET /css/style.css HTTP/1.1[0m" 404 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:36] "[32mPOST /admin HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:36] "GET /adminrequestmanager HTTP/1.1" 200 -
-INFO:main:User 3 deleted inventory request with id 3
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:40] "[32mPOST /adminrequestmanager HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:40] "GET /adminrequestmanager HTTP/1.1" 200 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:41] "[32mPOST /adminrequestmanager HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:41] "GET /admininventory HTTP/1.1" 200 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:42] "[32mPOST /admininventory HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:42] "GET /adminrequestmanager HTTP/1.1" 200 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:43] "[32mPOST /adminrequestmanager HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:43] "GET /admininventory HTTP/1.1" 200 -
-INFO:main:user with id 3 added a new inventory option of sadasdas
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:47] "POST /admininventory HTTP/1.1" 200 -
-INFO:main:user with id 3 deleted inventory with id of SELECT userdb."TID" AS "userdb_TID", userdb."Product" AS "userdb_Product", userdb."Email_Address" AS "userdb_Email_Address", userdb."Date" AS "userdb_Date" 
-FROM userdb ORDER BY userdb."TID"
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:50] "[32mPOST /admininventory HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:50] "GET /adminrequestmanager HTTP/1.1" 200 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:52] "[32mPOST /adminrequestmanager HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:52] "GET /admin HTTP/1.1" 200 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:52] "[33mGET /css/style.css HTTP/1.1[0m" 404 -
-INFO:main:user with id 3 signed out
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:53] "[32mPOST /admin HTTP/1.1[0m" 302 -
-INFO:werkzeug:127.0.0.1 - - [05/Aug/2023 17:07:53] "GET /login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:43:51] "GET /login HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:43:52] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:43:52] "[32mPOST /login HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:43:52] "GET /createuser HTTP/1.1" 200 -
+INFO:main:new user was created with email adwheele@cisco.com
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:44:12] "[32mPOST /createuser HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:44:12] "GET /Setup_2fa/ HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:45:05] "[32mPOST /Setup_2fa/ HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:45:05] "GET /admin HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:45:05] "[33mGET /css/style.css HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:45:12] "[32mPOST /admin HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:45:12] "GET /adminrequestmanager HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:45:16] "[32mPOST /adminrequestmanager HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:45:16] "GET /configureproduct HTTP/1.1" 200 -
+INFO:main:user with id 4 modified invenotry request id 0
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:45:21] "[32mPOST /configureproduct HTTP/1.1[0m" 302 -
+INFO:werkzeug:127.0.0.1 - - [06/Aug/2023 11:45:21] "GET /adminrequestmanager HTTP/1.1" 200 -
