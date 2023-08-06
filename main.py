@@ -407,4 +407,4 @@ def admininventory():
         return redirect(url_for('login'))
 
 if __name__ == '__main__':                                      #tells it what port to host it on
-    application.run()
+    application.run(port=5000)
