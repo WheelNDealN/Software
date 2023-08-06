@@ -23,7 +23,6 @@ jsonpickle==2.2.0
 lxml==4.9.1
 MarkupSafe==2.1.1
 meraki==1.24.0
-multidict==6.0.2
 numpy==1.23.2
 passlib==1.7.4
 Pillow==9.2.0
