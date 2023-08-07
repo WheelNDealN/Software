@@ -2,6 +2,11 @@
 This application is an inventory management project.
 an example use of this is if a employee wants a new piece of hardware
 they must login, and create a new request.
+There are two users, regular and admin, each can do different functions.
+There are two sql tables for requests and different products, and one 
+more for the user sign in, all passwords are hashed.
+The only emails i have used are, Wheeler_adam@hotmail.com and
+adwheele@cisco.com. so you can use any other email to sign up
 
                   ----Important #1----
 Sometimes your session gets bugged, i wasnt able to understand what
