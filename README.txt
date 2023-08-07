@@ -3,6 +3,12 @@ This application is an inventory management project.
 an example use of this is if a employee wants a new piece of hardware
 they must login, and create a new request.
 
+                  ----Important #1----
+Sometimes your session gets bugged, i wasnt able to understand what
+is causing the problem, however clearing your cookies and cache 
+fixes all sign in problems i have, if i had more time i should have
+fixed this properly but i am still unsure why
+
                   ----How to create a user/navigate----
 the login is fairly straight forward and create a user creates a user.
 for the two factor authentification you must create a user
@@ -24,7 +30,7 @@ i am able to make anyone an admin through the database,
 however to be able to set up 2fa the admin needs to be created
 to recieve the 2fa code for the app.
 
-                    ----IMPORTANT----
+                    ----IMPORTANT #2----
 PRESS BUTTONS RATHER THAN PRESSING ENTER ON THE KEYBOARD
 after testing with a friend i learned if you press enter to natvigate,
 it presses the first button available, which isnt always the option you want.
